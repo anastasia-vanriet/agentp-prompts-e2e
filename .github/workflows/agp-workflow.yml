@@ -39,6 +39,7 @@ jobs:
           validation-commands: node check.js
           docker-image: agp-local:clm53212
           skip-docker-pull: 'true'
+          github-token: ${{ github.token }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           AGP_API_URL: ${{ inputs.api-url }}
