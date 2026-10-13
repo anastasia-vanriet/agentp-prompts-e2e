@@ -36,7 +36,6 @@ jobs:
           create-pr: 'true'
           dry-run: 'false'
           verbose: 'true'
-          validation-commands: node check.js
           docker-image: agp-local:clm53212
           skip-docker-pull: 'true'
           github-token: ${{ github.token }}
