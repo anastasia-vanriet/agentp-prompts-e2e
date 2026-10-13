@@ -1,0 +1,46 @@
+name: Sonatype Guide - Agent P
+
+on:
+  workflow_dispatch:
+    inputs:
+      api-url:
+        description: 'agp-server base URL'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: agp-workflow
+  cancel-in-progress: false
+
+jobs:
+  agp:
+    runs-on: self-hosted
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch governed configuration
+        uses: sonatype/agp-action/gate@v1
+        with:
+          guide-url: ${{ inputs.api-url }}
+
+      - name: Run AGP
+        uses: sonatype/agp-action@v1
+        with:
+          mode: full
+          create-pr: 'true'
+          dry-run: 'false'
+          verbose: 'true'
+          validation-commands: node check.js
+          docker-image: agp-local:clm53212
+          skip-docker-pull: 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AGP_API_URL: ${{ inputs.api-url }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: ${{ vars.ANTHROPIC_BASE_URL }}

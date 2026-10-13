@@ -1,0 +1,7 @@
+{
+  "name": "agentp-prompts-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "test": "node check.js" },
+  "dependencies": { "lodash": "4.17.20" }
+}
